@@ -112,15 +112,33 @@ test("testing working status of the method levelUp with health <= 0", () => {
   expect(() => testClass.levelUp()).toThrow("Нельзя повысить левел умершего");
 });
 
-test("testing working status of method damage", () => {
-  const testClass = new Character("Bowman", "Bowman", 100, 1, 25, 25);
+test.each([
+  [
+    "if health > 0",
+    ["Bowman", "Bowman", 100, 1, 25, 25],
+    {
+      name: "Bowman",
+      type: "Bowman",
+      health: 92.5,
+      level: 1,
+      attack: 25,
+      defence: 25,
+    },
+  ],
+  [
+    "if health <= 0",
+    ["Bowman", "Bowman", -1, 1, 25, 25],
+    {
+      name: "Bowman",
+      type: "Bowman",
+      health: -1,
+      level: 1,
+      attack: 25,
+      defence: 25,
+    },
+  ],
+])("testing working status of method damage %s", (_, imports, expected) => {
+  const testClass = new Character(...imports);
   testClass.damage(10);
-  expect(testClass).toEqual({
-    name: "Bowman",
-    type: "Bowman",
-    health: 92.5,
-    level: 1,
-    attack: 25,
-    defence: 25,
-  });
+  expect(testClass).toEqual(expected);
 });
