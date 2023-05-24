@@ -2,7 +2,7 @@
   "name": "methods",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/methods.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "jest --coverage ",
     "lint": "eslint .",
