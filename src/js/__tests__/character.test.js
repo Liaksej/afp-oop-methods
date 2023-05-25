@@ -1,7 +1,7 @@
-import { Character } from "../character";
+import { Bowman } from "../bowman";
 
 test("testing working status of method levelUp", () => {
-  const testClass = new Character("Bowman", "Bowman", 100, 1, 25, 25);
+  const testClass = new Bowman("Bowman", "Bowman", 25, 25);
   testClass.levelUp();
   expect(testClass).toEqual({
     name: "Bowman",
@@ -16,12 +16,12 @@ test("testing working status of method levelUp", () => {
 test.each([
   [
     "invalid name input: less then 2",
-    ["B", "Bowman", 100, 1, 10, 10],
+    ["B", "Bowman", 10, 10],
     "The name must be at least 2 and no more than 10 characters",
   ],
   [
     "invalid name input: more then 10",
-    ["B", "Bowman", 100, 1, 10, 10],
+    ["BowmanBowman", "Bowman", 10, 10],
     "The name must be at least 2 and no more than 10 characters",
   ],
   [
@@ -30,18 +30,19 @@ test.each([
     "The type must be one of the list: Bowman, Swordsman, Magician, Daemon, Undead, Zombie",
   ],
 ])("testing working status with %s", (_, imported, expected) => {
-  expect(() => new Character(...imported)).toThrow(expected);
+  expect(() => new Bowman(...imported)).toThrow(expected);
 });
 
 test("testing working status of the method levelUp with health <= 0", () => {
-  const testClass = new Character("Bowman", "Bowman", 0, 1, 25, 25);
+  const testClass = new Bowman("Bowman", "Bowman");
+  testClass.health = 0;
   expect(() => testClass.levelUp()).toThrow("Нельзя повысить левел умершего");
 });
 
 test.each([
   [
     "if health > 0",
-    ["Bowman", "Bowman", 100, 1, 25, 25],
+    100,
     {
       name: "Bowman",
       type: "Bowman",
@@ -53,7 +54,7 @@ test.each([
   ],
   [
     "if health <= 0",
-    ["Bowman", "Bowman", -1, 1, 25, 25],
+    -1,
     {
       name: "Bowman",
       type: "Bowman",
@@ -64,7 +65,8 @@ test.each([
     },
   ],
 ])("testing working status of method damage %s", (_, imports, expected) => {
-  const testClass = new Character(...imports);
+  const testClass = new Bowman("Bowman", "Bowman");
+  testClass.health = imports;
   testClass.damage(10);
   expect(testClass).toEqual(expected);
 });
